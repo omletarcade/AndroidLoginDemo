@@ -2,20 +2,21 @@ package com.example.omletlogin;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 public class WebLoginActivity extends AppCompatActivity {
+    public static final String EXTRA_OMLET_USER_TOKEN = "extra_omlet_user_token";
 
     private static final String LOGIN_URL = "https://tpapi-idp-s.stage.omapi.net/login";
-    private static final String GAME_UID = "TESTPUBG";
-    private static final String GAME_NAME = "PUBG%20Mobile";
-    private static final String GAME_DEV = "Tencent%20Games";
-    private static final String GAME_ICON = "https://omlet-download.akamaized.net/blob/bG9uZ2RhbjovL09ORS9sZHByb2QtdXMvQ1VfLVBHQ3B4QmZsODBzUUFtcTBwUT09";
+    private static final String GAME_UID = "FD06580EB5BC6200AE886EB84042BCDB";
+    private static final String GAME_NAME = "Omlet%20Pew%20Pew";
+    private static final String GAME_DEV = "Omlet%20Arcade";
+    private static final String GAME_ICON = "https://i.imgur.com/JDoIU8N.png";
 
     private static final String CALLBACK_PREFIX = "interceptme://get-omlet-token/";
 
@@ -37,9 +38,11 @@ public class WebLoginActivity extends AppCompatActivity {
                     Uri uri = Uri.parse(url);
                     String omletUserToken = uri.getLastPathSegment();
 
-                    /* SAVE THE OMLET USER TOKEN SOMEWHERE */
-                    Log.i("WebLoginActivity", "Omlet User Token: " + omletUserToken);
+                    /* SAVE THIS OMLET USER TOKEN ON YOUR SERVER */
 
+                    Intent userTokenDataIntent = new Intent();
+                    userTokenDataIntent.putExtra(EXTRA_OMLET_USER_TOKEN, omletUserToken);
+                    setResult(RESULT_OK, userTokenDataIntent);
                     finish();
                     return;
                 }
